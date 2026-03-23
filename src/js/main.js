@@ -24,8 +24,8 @@ camera.lookAt(0, 0, 0);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.enablePan = false;
-controls.minDistance = 0;
-controls.maxDistance = 20;
+controls.minDistance = 30;
+controls.maxDistance = 300;
 controls.minPolarAngle = 0.5;
 controls.maxPolarAngle = 1.5;
 controls.autoRotate = false;
@@ -46,12 +46,38 @@ scene.add(groundMesh);
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambientLight);
 
-const spotLight = new THREE.SpotLight(0xffffff, 2000, 100, 0.2, 0.5);
-spotLight.position.set(0, 30, 0);
-scene.add(spotLight);
+// Подсветка снизу
+const bottomLight = new THREE.DirectionalLight(0x006994, 0.4); // было 1.2
+bottomLight.position.set(0, -100, 0);
+scene.add(bottomLight);
 
-const loader = new GLTFLoader().setPath("sea/");
-loader.load("water.gltf", (gltf) => {
+// Спереди
+const frontLight = new THREE.DirectionalLight(0x00aaff, 0.5); // было 1.5
+frontLight.position.set(0, 20, 100);
+scene.add(frontLight);
+
+// Сзади
+const backLight = new THREE.DirectionalLight(0x0077cc, 0.3); // было 1.0
+backLight.position.set(0, 20, -100);
+scene.add(backLight);
+
+// Слева
+const leftLight = new THREE.DirectionalLight(0x00ccff, 0.3); // было 1.0
+leftLight.position.set(-100, 30, 0);
+scene.add(leftLight);
+
+// Справа
+const rightLight = new THREE.DirectionalLight(0xffffff, 0.3); // было 1.0
+rightLight.position.set(100, 30, 0);
+scene.add(rightLight);
+
+// Точечный свет в центре
+const pointLight = new THREE.PointLight(0x00cfff, 1.0, 500); // было 3.0
+pointLight.position.set(0, 10, 0);
+scene.add(pointLight);
+
+const loader = new GLTFLoader().setPath("sea.v2/");
+loader.load("Untitled.gltf", (gltf) => {
   const mesh = gltf.scene;
   mesh.position.set(0, 1.05, -1);
   scene.add(mesh);
